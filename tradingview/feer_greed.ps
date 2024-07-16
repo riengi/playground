@@ -1,0 +1,27 @@
+//@version=5
+// Indicator signilization market reaching extremes in terms of price volatility and volume
+indicator("Fear and greed index", shorttitle="FGI", overlay=true)
+
+extreme_fear = input.int(-40, "Extreme fear")
+extreme_greed = input.int(100, "Extreme greed")
+
+// relative strengh index
+rsi = ta.rsi(close,14)
+fair_value = ta.ema(close, 14)
+
+// fair value indicator
+fv_indicator = (close / fair_value)
+
+// volumes
+vol_high = ta.highest(volume, 90)
+vol_low = ta.lowest(volume, 90)
+// volume indicator
+vol_indicator = 1 + (volume / ((vol_high + vol_low)  / 2))
+// deviation indicator
+stdev = ta.stdev(close, 14)
+stdev_indicator = 1 + (stdev / close)
+
+// fear and greed index
+fgi = (rsi-50) * fv_indicator * vol_indicator * stdev_indicator
+bgcolor(fgi <= extreme_fear ? color.new(color.red, 90) : na)
+bgcolor(fgi >= extreme_greed ? color.new(color.lime, 90) : na)
