@@ -1,0 +1,21 @@
+//@version=5
+strategy("Moving Average Cross", overlay=true)
+longMAInput = input.int(200, minval=1, title="LMA")
+shortMAInput = input.int(30, minval=1, title="SMA")
+longMA = ta.sma(close, longMAInput)
+shortMA = ta.sma(close, shortMAInput)
+plot(longMA, color=color.blue, linewidth=2, title="LMA")
+plot(shortMA, color=color.red, linewidth=2, title="SMA")
+longCondition = ta.crossover(shortMA, longMA)
+shortCondition = ta.crossunder(shortMA, longMA)
+
+if (longCondition)
+    strategy.entry("Long", strategy.long)
+if (longCondition)
+    strategy.close("Long")
+
+if (shortCondition)
+    strategy.entry("Short", strategy.short)
+if (shortCondition)
+    strategy.close("Short")
+    
