@@ -1,0 +1,20 @@
+// comment
+// version
+// @version=5
+
+// DEFINE INDICATOR
+// create indicator
+// overlay = true, indicator will be displayed in chart
+indicator("Rocket Moving Average", overlay = true)
+
+
+// CALCULATE
+// how it will be calculated, source
+// ta.sma = simple moving average
+// ta.rma = rocket moving average
+// close = closing value (built-in)
+// 20 how many back
+sma = ta.sma(close, 20)
+
+// PLOT INDICATOR
+plot(sma, color = color.maroon, style = plot.style_line)

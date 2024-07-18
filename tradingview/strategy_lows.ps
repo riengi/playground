@@ -1,0 +1,19 @@
+// @version=5
+strategy(title = "My Strategy", shorttitle = "MS", overlay=true)
+
+buy_condition1 = close < ta.lowest(close[1], 10)
+buy_condition2 = false
+
+if close > ta.sma(close,100)
+	buy_condition2 := true
+else
+	buy_condition2 := false
+
+
+exit_condition = (close > ta.highest(close[1], 10)) or (close < ta.sma(close,100))
+
+switch 
+    (buy_condition1 == true and buy_condition2 == true) => strategy.entry("long", strategy.long, comment="Long")
+    exit_condition == true => strategy.close("long", comment="Close")
+
+plot(ta.sma(close,100))
